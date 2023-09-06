@@ -1,5 +1,5 @@
 <template>
-  <div class="ball" />
+  <div class="hero" />
 </template>
 
 <script setup lang="ts">
@@ -21,11 +21,10 @@ const position = ref({ x: 0, y: 0 })
 </script>
 
 <style>
-.ball {
-  width: 10px;
-  height: 10px;
-  background: red;
-  border-radius: 50%;
+.hero {
+  width: 30px;
+  height: 52px;
+  background-image: url('hero.png');
   position: absolute;
   top: v-bind(position.y + 'px');
   left: v-bind(position.x + 'px');
