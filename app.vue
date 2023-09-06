@@ -1,14 +1,23 @@
 <template>
   <div>
-    [ {{ position.x }} x {{ position.y }} ]
+    <div>
+      <ClientOnly>[ {{ position.x }} x {{ position.y }} ]</ClientOnly>
+    </div>
+    <div class="hero" />
   </div>
-  <div class="hero" />
 </template>
 
 <script setup lang="ts">
 import { onKeyDown, onKeyUp, useRafFn, useWindowSize } from '@vueuse/core'
 
-const controls = {
+type ControlSet = {
+  ArrowDown: Function,
+  ArrowUp: Function,
+  ArrowRight: Function,
+  ArrowLeft: Function,
+}
+
+const controls: ControlSet = {
   ArrowDown: () => {
     if (direction.value !== 'd') {
       frames.value = 0
@@ -84,7 +93,7 @@ onKeyDown(Object.keys(controls), (e) => {
     frames.value = 0
   }
   moving.value = true
-  controls[e.key]()
+  controls[e.key as keyof ControlSet]()
 })
 
 onKeyUp(Object.keys(controls), (e) => {
@@ -125,9 +134,9 @@ const lastKeyUp = ref(0)
 .hero {
   width: v-bind(heroWidth + 'px');
   height: v-bind(heroHeight + 'px');
-  background: url('hero-sprite.png') v-bind(offset.x + 'px') v-bind(offset.y + 'px');
+  background: url('hero-sprite.png') v-bind('offset.x + "px"') v-bind('offset.y + "px"');
   position: absolute;
-  top: v-bind(position.y + 'px');
-  left: v-bind(position.x + 'px');
+  top: v-bind('position.y + "px"');
+  left: v-bind('position.x + "px"');
 }
 </style>
