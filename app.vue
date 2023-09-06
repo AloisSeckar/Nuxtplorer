@@ -79,6 +79,7 @@ useRafFn(() => {
 
 onKeyDown(Object.keys(controls), (e) => {
   e.preventDefault()
+  lastKeyDown.value = Date.now()
   if (moving.value === false) {
     frames.value = 0
   }
@@ -88,11 +89,19 @@ onKeyDown(Object.keys(controls), (e) => {
 
 onKeyUp(Object.keys(controls), (e) => {
   e.preventDefault()
-  if (frames.value > 10) {
+  lastKeyUp.value = Date.now()
+  if (frames.value > 20) {
     moving.value = false
     frames.value = 0
     phase.value = 2
   }
+  setTimeout(() => {
+    if (Date.now() - lastKeyDown.value >= 400 && Date.now() - lastKeyUp.value >= 400) {
+      moving.value = false
+      frames.value = 0
+      phase.value = 2
+    }
+  }, 400)
 })
 
 const { width, height } = useWindowSize()
@@ -108,6 +117,8 @@ const direction: Ref<'u' | 'd' | 'l' | 'r'> = ref('d')
 const moving = ref(false)
 const frames = ref(0)
 const phase: Ref<1 | 2 | 3> = ref(2)
+const lastKeyDown = ref(0)
+const lastKeyUp = ref(0)
 </script>
 
 <style>
