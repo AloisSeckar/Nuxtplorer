@@ -1,4 +1,7 @@
 <template>
+  <div>
+    [ {{ position.x }} x {{ position.y }} ]
+  </div>
   <div class="hero" />
 </template>
 
@@ -69,7 +72,7 @@ const heroWidth = 48
 const heroHeight = 64
 
 const offset = ref({ x: 48, y: 128 })
-const position = ref({ x: width.value / 2 - heroWidth / 2, y: height.value / 2 - heroHeight / 2 })
+const position = ref({ x: Math.round(width.value / 2 - heroWidth / 2), y: Math.round(height.value / 2 - heroHeight / 2) })
 
 const direction: Ref<'u' | 'd' | 'l' | 'r'> = ref('d')
 
