@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { onKeyStroke, onKeyUp, useRafFn, useWindowSize } from '@vueuse/core'
+import { onKeyDown, onKeyUp, useRafFn, useWindowSize } from '@vueuse/core'
 
 const controls = {
   ArrowDown: () => {
@@ -33,7 +33,6 @@ const controls = {
 
 useRafFn(() => {
   if (moving.value) {
-    frames.value++
     if (frames.value % 15 === 0) {
       switch (phase.value) {
         case 1:
@@ -50,10 +49,11 @@ useRafFn(() => {
           break
       }
     }
+    frames.value++
   }
 })
 
-onKeyStroke(Object.keys(controls), (e) => {
+onKeyDown(Object.keys(controls), (e) => {
   e.preventDefault()
   moving.value = true
   controls[e.key]()
