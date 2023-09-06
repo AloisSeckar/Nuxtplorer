@@ -10,22 +10,30 @@ import { onKeyDown, onKeyUp, useRafFn, useWindowSize } from '@vueuse/core'
 
 const controls = {
   ArrowDown: () => {
-    position.value.y += 5
+    if (direction.value !== 'd') {
+      frames.value = 0
+    }
     direction.value = 'd'
     offset.value.y = 128
   },
   ArrowUp: () => {
-    position.value.y -= 5
+    if (direction.value !== 'u') {
+      frames.value = 0
+    }
     direction.value = 'u'
     offset.value.y = 0
   },
   ArrowRight: () => {
-    position.value.x += 5
+    if (direction.value !== 'r') {
+      frames.value = 0
+    }
     direction.value = 'r'
     offset.value.y = 192
   },
   ArrowLeft: () => {
-    position.value.x -= 5
+    if (direction.value !== 'l') {
+      frames.value = 0
+    }
     direction.value = 'l'
     offset.value.y = 64
   }
@@ -33,6 +41,22 @@ const controls = {
 
 useRafFn(() => {
   if (moving.value) {
+    if (frames.value % 2 === 0) {
+      switch (direction.value) {
+        case 'u':
+          position.value.y -= 1
+          break
+        case 'd':
+          position.value.y += 1
+          break
+        case 'l':
+          position.value.x -= 1
+          break
+        case 'r':
+          position.value.x += 1
+          break
+      }
+    }
     if (frames.value % 15 === 0) {
       switch (phase.value) {
         case 1:
@@ -55,15 +79,20 @@ useRafFn(() => {
 
 onKeyDown(Object.keys(controls), (e) => {
   e.preventDefault()
+  if (moving.value === false) {
+    frames.value = 0
+  }
   moving.value = true
   controls[e.key]()
 })
 
 onKeyUp(Object.keys(controls), (e) => {
   e.preventDefault()
-  moving.value = false
-  frames.value = 0
-  phase.value = 2
+  if (frames.value > 10) {
+    moving.value = false
+    frames.value = 0
+    phase.value = 2
+  }
 })
 
 const { width, height } = useWindowSize()
