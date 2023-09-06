@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { onKeyStroke } from '@vueuse/core'
+import { onKeyStroke, useWindowSize } from '@vueuse/core'
 
 const controls = {
   ArrowDown: () => (position.value.y += 5),
@@ -17,13 +17,16 @@ onKeyStroke(Object.keys(controls), (e) => {
   controls[e.key]()
 })
 
-const position = ref({ x: 0, y: 0 })
+const { width, height } = useWindowSize()
+const heroWidth = 30
+const heroHeight = 52
+const position = ref({ x: width.value / 2 - heroWidth / 2, y: height.value / 2 - heroHeight / 2 })
 </script>
 
 <style>
 .hero {
-  width: 30px;
-  height: 52px;
+  width: v-bind(heroWidth + 'px');
+  height: v-bind(heroHeight + 'px');
   background-image: url('hero.png');
   position: absolute;
   top: v-bind(position.y + 'px');
