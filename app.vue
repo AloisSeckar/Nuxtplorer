@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { onKeyDown, onKeyUp, useRafFn, useWindowSize } from '@vueuse/core'
+import { onKeyDown, onKeyUp, useIntervalFn, useRafFn, useWindowSize } from '@vueuse/core'
 
 type ControlSet = {
   ArrowDown: Function,
@@ -51,40 +51,46 @@ const controls: ControlSet = {
   }
 }
 
+useIntervalFn(() => {
+  if (moving.value) {
+    switch (direction.value) {
+      case 'u':
+        position.value.y -= 1
+        break
+      case 'd':
+        position.value.y += 1
+        break
+      case 'l':
+        position.value.x -= 1
+        break
+      case 'r':
+        position.value.x += 1
+        break
+    }
+  }
+}, 15)
+
+useIntervalFn(() => {
+  if (moving.value) {
+    switch (phase.value) {
+      case 1:
+        phase.value = 2
+        offset.value.x = 48
+        break
+      case 2:
+        phase.value = 3
+        offset.value.x = 96
+        break
+      case 3:
+        phase.value = 1
+        offset.value.x = 0
+        break
+    }
+  }
+}, 100)
+
 useRafFn(() => {
   if (moving.value) {
-    if (frames.value % 2 === 0) {
-      switch (direction.value) {
-        case 'u':
-          position.value.y -= 1
-          break
-        case 'd':
-          position.value.y += 1
-          break
-        case 'l':
-          position.value.x -= 1
-          break
-        case 'r':
-          position.value.x += 1
-          break
-      }
-    }
-    if (frames.value % 15 === 0) {
-      switch (phase.value) {
-        case 1:
-          phase.value = 2
-          offset.value.x = 48
-          break
-        case 2:
-          phase.value = 3
-          offset.value.x = 96
-          break
-        case 3:
-          phase.value = 1
-          offset.value.x = 0
-          break
-      }
-    }
     frames.value++
   }
 })
@@ -108,12 +114,12 @@ onKeyUp(Object.keys(controls), (e) => {
     phase.value = 2
   }
   setTimeout(() => {
-    if (Date.now() - lastKeyDown.value >= 400 && Date.now() - lastKeyUp.value >= 400) {
+    if (Date.now() - lastKeyDown.value >= 500 && Date.now() - lastKeyUp.value >= 500) {
       moving.value = false
       frames.value = 0
       phase.value = 2
     }
-  }, 400)
+  }, 500)
 })
 
 const { width, height } = useWindowSize()
