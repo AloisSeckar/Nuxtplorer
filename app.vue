@@ -3,6 +3,9 @@
     <div>
       <ClientOnly>[ {{ position.x }} x {{ position.y }} ]</ClientOnly>
     </div>
+    <div>
+      <ClientOnly><FPSBox /></ClientOnly>
+    </div>
     <div class="hero" />
   </div>
 </template>
