@@ -5,6 +5,11 @@
 <script setup lang="ts">
 import { onKeyDown, onKeyUp, useIntervalFn, useRafFn, useWindowSize } from '@vueuse/core'
 
+const { width, height } = useWindowSize()
+
+const hero = useHeroStore()
+hero.init(width.value, height.value)
+
 type ControlSet = {
   ArrowDown: Function,
   ArrowUp: Function,
@@ -14,130 +19,114 @@ type ControlSet = {
 
 const controls: ControlSet = {
   ArrowDown: () => {
-    if (direction.value !== 'd') {
-      frames.value = 0
+    if (hero.direction !== 'd') {
+      hero.frames = 0
     }
-    direction.value = 'd'
-    offset.value.y = 128
+    hero.direction = 'd'
+    hero.offset.y = 128
   },
   ArrowUp: () => {
-    if (direction.value !== 'u') {
-      frames.value = 0
+    if (hero.direction !== 'u') {
+      hero.frames = 0
     }
-    direction.value = 'u'
-    offset.value.y = 0
+    hero.direction = 'u'
+    hero.offset.y = 0
   },
   ArrowRight: () => {
-    if (direction.value !== 'r') {
-      frames.value = 0
+    if (hero.direction !== 'r') {
+      hero.frames = 0
     }
-    direction.value = 'r'
-    offset.value.y = 192
+    hero.direction = 'r'
+    hero.offset.y = 192
   },
   ArrowLeft: () => {
-    if (direction.value !== 'l') {
-      frames.value = 0
+    if (hero.direction !== 'l') {
+      hero.frames = 0
     }
-    direction.value = 'l'
-    offset.value.y = 64
+    hero.direction = 'l'
+    hero.offset.y = 64
   }
 }
 
 useIntervalFn(() => {
-  if (moving.value) {
-    switch (direction.value) {
+  if (hero.moving) {
+    switch (hero.direction) {
       case 'u':
-        position.value.y -= 1
+        hero.position.y -= 1
         break
       case 'd':
-        position.value.y += 1
+        hero.position.y += 1
         break
       case 'l':
-        position.value.x -= 1
+        hero.position.x -= 1
         break
       case 'r':
-        position.value.x += 1
+        hero.position.x += 1
         break
     }
   }
 }, 15)
 
 useIntervalFn(() => {
-  if (moving.value) {
-    switch (phase.value) {
+  if (hero.moving) {
+    switch (hero.phase) {
       case 1:
-        phase.value = 2
-        offset.value.x = 48
+        hero.phase = 2
+        hero.offset.x = 48
         break
       case 2:
-        phase.value = 3
-        offset.value.x = 96
+        hero.phase = 3
+        hero.offset.x = 96
         break
       case 3:
-        phase.value = 1
-        offset.value.x = 0
+        hero.phase = 1
+        hero.offset.x = 0
         break
     }
   }
 }, 100)
 
 useRafFn(() => {
-  if (moving.value) {
-    frames.value++
+  if (hero.moving) {
+    hero.frames++
   }
 })
 
 onKeyDown(Object.keys(controls), (e) => {
   e.preventDefault()
-  lastKeyDown.value = Date.now()
-  if (moving.value === false) {
-    frames.value = 0
+  hero.lastKeyDown = Date.now()
+  if (hero.moving === false) {
+    hero.frames = 0
   }
-  moving.value = true
+  hero.moving = true
   controls[e.key as keyof ControlSet]()
 })
 
 onKeyUp(Object.keys(controls), (e) => {
   e.preventDefault()
-  lastKeyUp.value = Date.now()
-  if (frames.value > 20) {
-    moving.value = false
-    frames.value = 0
-    phase.value = 2
+  hero.lastKeyUp = Date.now()
+  if (hero.frames > 20) {
+    hero.moving = false
+    hero.frames = 0
+    hero.phase = 2
   }
   setTimeout(() => {
-    if (Date.now() - lastKeyDown.value >= 500 && Date.now() - lastKeyUp.value >= 500) {
-      moving.value = false
-      frames.value = 0
-      phase.value = 2
+    if (Date.now() - hero.lastKeyDown >= 500 && Date.now() - hero.lastKeyUp >= 500) {
+      hero.moving = false
+      hero.frames = 0
+      hero.phase = 2
     }
   }, 500)
 })
-
-const { width, height } = useWindowSize()
-
-const heroWidth = 48
-const heroHeight = 64
-
-const offset = ref({ x: 48, y: 128 })
-const position = ref({ x: Math.round(width.value / 2 - heroWidth / 2), y: Math.round(height.value / 2 - heroHeight / 2) })
-
-const direction: Ref<'u' | 'd' | 'l' | 'r'> = ref('d')
-
-const moving = ref(false)
-const frames = ref(0)
-const phase: Ref<1 | 2 | 3> = ref(2)
-const lastKeyDown = ref(0)
-const lastKeyUp = ref(0)
 </script>
 
 <style scoped>
 .hero {
-  width: v-bind(heroWidth + 'px');
-  height: v-bind(heroHeight + 'px');
-  background: url('hero-sprite.png') v-bind('offset.x + "px"') v-bind('offset.y + "px"');
+  width: v-bind('hero.heroWidth + "px"');
+  height: v-bind('hero.heroHeight + "px"');
+  background: url('hero-sprite.png') v-bind('hero.offset.x + "px"') v-bind('hero.offset.y + "px"');
   position: absolute;
-  top: v-bind('position.y + "px"');
-  left: v-bind('position.x + "px"');
+  top: v-bind('hero.position.y + "px"');
+  left: v-bind('hero.position.x + "px"');
 }
 </style>
