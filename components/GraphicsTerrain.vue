@@ -1,19 +1,11 @@
 <template>
   <div>
-    <ClientOnly>
-      <div>
-        <GuiCoordsBox />
-      </div>
-      <div>
-        <GuiFpsBox />
-      </div>
-      <div>
-        <GraphicsHero />
-      </div>
-      <div>
-        <GraphicsTerrain />
-      </div>
-    </ClientOnly>
+    <div class="terrain grass-1" />
+    <div class="terrain grass-2" />
+    <div class="terrain grass-3" />
+    <div class="terrain grass-4" />
+    <div class="terrain grass-5" />
+    <div class="terrain grass-6" />
   </div>
 </template>
 
