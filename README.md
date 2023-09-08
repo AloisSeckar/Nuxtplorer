@@ -5,3 +5,4 @@ Origially based on a simple idea of moving dot presented in [Vue School lesson a
 
 ## Attributions
 - Current hero image by [Gaurav Munjal, Stephen Challener (Redshrike)](https://opengameart.org/node/32390)
+- Current terrain tiles by [p0ss](https://opengameart.org/content/30-grass-textures-tilable)
