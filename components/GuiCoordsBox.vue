@@ -1,12 +1,10 @@
 <template>
   <div>
-    [ {{ position.x }} x {{ position.y }} ]
+    [ {{ posX }} x {{ posY }} ]
   </div>
 </template>
 
 <script setup>
-const position = {
-  x: 0,
-  y: 0
-}
+const posX = computed(() => useHeroStore().position.x)
+const posY = computed(() => useHeroStore().position.y)
 </script>
