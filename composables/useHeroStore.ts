@@ -22,11 +22,6 @@ export const useHeroStore = defineStore({
     }
   },
   getters: {
-    /*
-    getDouble: (state) => {
-      return () => state.demoNumber * 2
-    }
-    */
   },
   actions: {
     init (width: number, height: number) {
