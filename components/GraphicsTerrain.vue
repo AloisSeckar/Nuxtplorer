@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="terrain-wrap">
     <div v-for="row in tiles" :key="row[0].y" class="terrain-row">
       <div v-for="tile in row" :key="tile.x" :class="`terrain ${tile.terrain}`" />
     </div>
@@ -13,15 +13,23 @@ const { width, height } = useWindowSize()
 useTerrainStore().init(width.value, height.value)
 
 const tiles = computed(() => useTerrainStore().tiles)
+const terrainWidth = computed(() => useTerrainStore().getWidth)
+const terrainHeight = computed(() => useTerrainStore().getHeight)
 </script>
 
-<style>
+<style scoped>
+.terrain-wrap {
+  width: v-bind('terrainWidth + "px"');
+  height: v-bind('terrainHeight + "px"');
+  border: 2px solid black;
+  margin: 0 auto;
+}
 .terrain-row {
-  height: 64px;
+  height: v-bind('TILE_SIZE + "px"');
 }
 .terrain {
-  width: 64px;
-  height: 64px;
+  width: v-bind('TILE_SIZE + "px"');
+  height: v-bind('TILE_SIZE + "px"');
   display: inline-block;
 }
 .grass-1 {
