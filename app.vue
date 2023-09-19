@@ -1,10 +1,8 @@
 <template>
   <div>
     <ClientOnly>
-      <div>
+      <div class="overlay">
         <GuiCoordsBox />
-      </div>
-      <div>
         <GuiFpsBox />
       </div>
       <div>
@@ -18,6 +16,12 @@
 </template>
 
 <style>
+.overlay {
+  position: absolute;
+  z-index: 1;
+  color: white;
+  margin: 5px;
+}
 .terrain {
   width: 64px;
   height: 64px;
