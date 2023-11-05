@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="gem gem-1" style="left: 142px; top: 132px;" />
-    <div class="gem gem-2" style="left: 140px; top: 258px;" />
+    <div class="gem gem-1" style="left: 129px; top: 129px;" />
+    <div class="gem gem-2" style="left: 129px; top: 257px;" />
     <ClientOnly>
       <div class="overlay">
         <GuiCoordsBox />

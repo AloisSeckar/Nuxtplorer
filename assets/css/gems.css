@@ -1,17 +1,17 @@
 .gem {
     position: absolute;
     margin: 2px;
+    border: 1px solid pink;
 }
 
 .gem-1 {
-    background: url('gems-sprite-1.png') 60px -7px;
-    width: 60px;
-    height: 60px;
+    background: url('gems-sprite.png') -6px -16px;
+    width: 64px;
+    height: 64px;
 }
 
 .gem-2 {
-    background: url('gems-sprite-1.png') 111px -7px;
-    width: 56px;
-    height: 60px;
-    margin: 2px 4px;
+    background: url('gems-sprite.png') -143px -16px;
+    width: 64px;
+    height: 64px;
 }
