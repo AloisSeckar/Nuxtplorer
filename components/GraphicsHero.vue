@@ -128,5 +128,7 @@ onKeyUp(Object.keys(controls), (e) => {
   position: absolute;
   top: v-bind('hero.position.y + "px"');
   left: v-bind('hero.position.x + "px"');
+
+  z-index: 10;
 }
 </style>
