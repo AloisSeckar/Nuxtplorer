@@ -1,7 +1,8 @@
 type TerrainTile = {
     x: number,
     y: number,
-    terrain: string
+    terrain: string,
+    gem?: string
 }
 
 export const TILE_SIZE = 64
@@ -26,10 +27,18 @@ export const useTerrainStore = defineStore({
           this.tiles[i].push({
             x: i,
             y: j,
-            terrain: available[Math.floor(Math.random() * available.length)]
+            terrain: available[Math.floor(Math.random() * available.length)],
+            gem: setGemOrNothing()
           })
         }
       }
     }
   }
 })
+
+function setGemOrNothing (): string | undefined {
+  const rand = Math.random()
+  if (rand > 0.95) {
+    return Math.round(rand * 100) % 2 === 0 ? 'gem-1' : 'gem-2'
+  }
+}

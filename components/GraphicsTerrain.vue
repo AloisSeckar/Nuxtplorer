@@ -1,7 +1,9 @@
 <template>
   <div class="terrain-wrap">
     <div v-for="row in tiles" :key="row[0].y" class="terrain-row">
-      <div v-for="tile in row" :key="tile.x" :class="`terrain ${tile.terrain}`" />
+      <div v-for="tile in row" :key="tile.x" :class="`terrain ${tile.terrain}`">
+        <div v-if="tile.gem" class="gem" :class="tile.gem" />
+      </div>
     </div>
   </div>
 </template>
