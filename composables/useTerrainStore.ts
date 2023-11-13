@@ -56,6 +56,18 @@ function setRandomTerrainTile (tiles: TerrainTile[][], x: number, y: number): st
 function setGemOrNothing (): string | undefined {
   const rand = Math.random()
   if (rand > 0.95) {
-    return Math.round(rand * 100) % 2 === 0 ? 'gem-1' : 'gem-2'
+    const random = Math.round(rand * 100) % 5
+    switch (random) {
+      case 0:
+        return 'gem-1'
+      case 1:
+        return 'gem-2'
+      case 2:
+        return 'gem-3'
+      case 3:
+        return 'gem-4'
+      case 4:
+        return 'gem-5'
+    }
   }
 }

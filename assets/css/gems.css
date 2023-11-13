@@ -5,9 +5,21 @@
 }
 
 .gem-1 {
-    background: url('gems-sprite.png') -6px -16px;
+    background: url('gems.png') 0px 0px;
 }
 
 .gem-2 {
-    background: url('gems-sprite.png') -143px -16px;
+    background: url('gems.png') 256px 0px;
+}
+
+.gem-3 {
+    background: url('gems.png') 192px 0px;
+}
+
+.gem-4 {
+    background: url('gems.png') 128px 0px;
+}
+
+.gem-5 {
+    background: url('gems.png') 64px 0px;
 }
