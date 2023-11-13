@@ -34,22 +34,47 @@ const terrainHeight = computed(() => useTerrainStore().getHeight)
   height: v-bind('TILE_SIZE + "px"');
   display: inline-block;
 }
-.grass-1 {
-  background: url('terrain.png') 0px 0px;
+.stone {
+  background: url('caverns.png') 0px 0px;
 }
-.grass-2 {
-  background: url('terrain.png') 320px 0px;
+.corridor-lr {
+  background: url('caverns.png') 256px 0px;
 }
-.grass-3 {
-  background: url('terrain.png') 256px 0px;
+.corridor-td {
+  background: url('caverns.png') 256px 0px;
+  transform: rotate(90deg);
 }
-.grass-4 {
-  background: url('terrain.png') 192px 0px;
+.turn-dr {
+  background: url('caverns.png') 192px 0px;
 }
-.grass-5 {
-  background: url('terrain.png') 128px 0px;
+.turn-dl {
+  background: url('caverns.png') 192px 0px;
+  transform: rotate(90deg);
 }
-.grass-6 {
-  background: url('terrain.png') 64px 0px;
+.turn-tl {
+  background: url('caverns.png') 192px 0px;
+  transform: rotate(180deg);
+}
+.turn-tr {
+  background: url('caverns.png') 192px 0px;
+  transform: rotate(270deg);
+}
+.cross-3-d {
+  background: url('caverns.png') 128px 0px;
+}
+.cross-3-l {
+  background: url('caverns.png') 128px 0px;
+  transform: rotate(90deg);
+}
+.cross-3-t {
+  background: url('caverns.png') 128px 0px;
+  transform: rotate(180deg);
+}
+.cross-3-r {
+  background: url('caverns.png') 128px 0px;
+  transform: rotate(270deg);
+}
+.cross-4 {
+  background: url('caverns.png') 64px 0px;
 }
 </style>
