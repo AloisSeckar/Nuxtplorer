@@ -20,20 +20,13 @@ export const useTerrainStore = defineStore({
   },
   actions: {
     init (width: number, height: number) {
-      const available = [
-        'stone',
-        'corridor-lr', 'corridor-td',
-        'turn-dr', 'turn-dl', 'turn-tl', 'turn-tr',
-        'cross-3-d', 'cross-3-l', 'cross-3-t', 'cross-3-r',
-        'cross-4'
-      ]
-      for (let i = 0; i < height / TILE_SIZE - 1; i++) {
+      for (let j = 0; j < height / TILE_SIZE - 1; j++) {
         this.tiles.push([])
-        for (let j = 0; j < width / TILE_SIZE - 1; j++) {
-          this.tiles[i].push({
+        for (let i = 0; i < width / TILE_SIZE - 1; i++) {
+          this.tiles[j].push({
             x: i,
             y: j,
-            terrain: available[Math.floor(Math.random() * available.length)],
+            terrain: setRandomTerrainTile(this.tiles, i, j),
             gem: setGemOrNothing()
           })
         }
@@ -41,6 +34,24 @@ export const useTerrainStore = defineStore({
     }
   }
 })
+
+function setRandomTerrainTile (tiles: TerrainTile[][], x: number, y: number): string {
+  const leftNeighbour = x > 0 ? tiles[y][x - 1] : null
+  const topNeighbour = y > 0 ? tiles[y - 1][x] : null
+  const leftCorridor = !!leftNeighbour && ['corridor-lr', 'turn-dr', 'turn-tr', 'cross-3-d', 'cross-3-t', 'cross-3-r', 'cross-4'].includes(leftNeighbour.terrain)
+  const topCorridor = !!topNeighbour && ['corridor-td', 'turn-dr', 'turn-dl', 'cross-3-d', 'cross-3-l', 'cross-3-r', 'cross-4'].includes(topNeighbour.terrain)
+  const available = [] as string[]
+  if (leftCorridor && topCorridor) {
+    available.push('turn-tl', 'cross-3-l', 'cross-3-t', 'cross-4')
+  } else if (leftCorridor) {
+    available.push('corridor-lr', 'turn-dl', 'cross-3-d')
+  } else if (topCorridor) {
+    available.push('corridor-td', 'turn-tr', 'cross-3-r')
+  } else {
+    available.push('turn-dr')
+  }
+  return available[Math.floor(Math.random() * available.length)]
+}
 
 function setGemOrNothing (): string | undefined {
   const rand = Math.random()
